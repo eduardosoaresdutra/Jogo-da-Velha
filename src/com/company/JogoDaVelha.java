@@ -16,13 +16,15 @@ public class JogoDaVelha {
     private JButton field8;
     private JButton field9;
     private JLabel gameMessage;
+    private JButton restartButton;
 
     private int[][] GamePositions = new int[3][3];
-    private int DrawVerifier = 0;
     private int PlayerControl = 0;
 
     public JogoDaVelha() {
         StartGame();
+
+        restartButton.setVisible(false);
 
         field1.addActionListener(new ActionListener() {
             @Override
@@ -78,6 +80,17 @@ public class JogoDaVelha {
                 SetPositionMarker(field9, 2, 2);
             }
         });
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StartGame();
+                SetAllClickable();
+                ResetButtons();
+                PlayerControl = 0;
+                restartButton.setVisible(false);
+                gameMessage.setText("O jogador 'O' inicia a partida!");
+            }
+        });
     }
 
     public void StartGame() {
@@ -86,6 +99,30 @@ public class JogoDaVelha {
                 this.GamePositions[i][j] = 2;
             }
         }
+    }
+
+    public void ResetButtons() {
+        this.field1.setText("");
+        this.field2.setText("");
+        this.field3.setText("");
+        this.field4.setText("");
+        this.field5.setText("");
+        this.field6.setText("");
+        this.field7.setText("");
+        this.field8.setText("");
+        this.field9.setText("");
+    }
+
+    public void SetAllClickable() {
+        this.field1.setEnabled(true);
+        this.field2.setEnabled(true);
+        this.field3.setEnabled(true);
+        this.field4.setEnabled(true);
+        this.field5.setEnabled(true);
+        this.field6.setEnabled(true);
+        this.field7.setEnabled(true);
+        this.field8.setEnabled(true);
+        this.field9.setEnabled(true);
     }
 
     public void SetAllUnclickable() {
@@ -119,12 +156,12 @@ public class JogoDaVelha {
             this.SetMatrixMarker(rowIndex, colIndex, 0);
             button.setText("O");
 
-            if (this.VerifyDraw()) {
-                this.SetAllUnclickable();
-                this.gameMessage.setText("Empate!");
-            } else if (this.VerifyWin()) {
+            if (this.VerifyWin()) {
                 this.SetAllUnclickable();
                 this.gameMessage.setText("Jogador 'O' venceu!");
+            } else if (this.VerifyDraw()) {
+                this.SetAllUnclickable();
+                this.gameMessage.setText("Empate!");
             } else {
                 button.setEnabled(false);
                 this.ChangePlayer();
@@ -133,12 +170,12 @@ public class JogoDaVelha {
             this.SetMatrixMarker(rowIndex, colIndex, 1);
             button.setText("X");
 
-            if (this.VerifyDraw()) {
-                this.SetAllUnclickable();
-                this.gameMessage.setText("Empate!");
-            } else if (this.VerifyWin()) {
+            if (this.VerifyWin()) {
                 this.SetAllUnclickable();
                 this.gameMessage.setText("Jogador 'X' venceu!");
+            } else if (this.VerifyDraw()) {
+                this.SetAllUnclickable();
+                this.gameMessage.setText("Empate!");
             } else {
                 button.setEnabled(false);
                 this.ChangePlayer();
@@ -147,15 +184,20 @@ public class JogoDaVelha {
     }
 
     public boolean VerifyDraw() {
+        int DrawVerifier = 0;
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (this.GamePositions[i][j] != 2) {
-                    this.DrawVerifier++;
+                    DrawVerifier++;
                 }
             }
         }
 
-        if (this.DrawVerifier == 9) { return true; }
+        if (DrawVerifier == 9) {
+            this.restartButton.setVisible(true);
+            return true;
+        }
         return false;
     }
 
@@ -177,6 +219,7 @@ public class JogoDaVelha {
                 (this.GamePositions[2][0] == 0 && this.GamePositions[1][1] == 0 && this.GamePositions[0][2] == 0) ||
                 (this.GamePositions[2][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[0][2] == 1)
         ) {
+            this.restartButton.setVisible(true);
             return true;
         } return false;
     }
