@@ -86,7 +86,7 @@
         </constraints>
         <properties>
           <focusTraversalPolicyProvider value="false"/>
-          <text value="Test"/>
+          <text value="Jogador 'O' inicia a partida!"/>
         </properties>
       </component>
     </children>
