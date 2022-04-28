@@ -41,7 +41,9 @@ public class JogoDaVelha {
                 (this.GamePositions[0][2] == 0 && this.GamePositions[1][2] == 0 && this.GamePositions[2][2] == 0) ||
                 (this.GamePositions[0][2] == 1 && this.GamePositions[1][2] == 1 && this.GamePositions[2][2] == 1) ||
                 (this.GamePositions[0][0] == 0 && this.GamePositions[1][1] == 0 && this.GamePositions[2][2] == 0) ||
-                (this.GamePositions[0][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[2][2] == 1)
+                (this.GamePositions[0][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[2][2] == 1) ||
+                (this.GamePositions[2][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[0][2] == 1) ||
+                (this.GamePositions[2][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[0][2] == 1)
         ) {}
     }
 
