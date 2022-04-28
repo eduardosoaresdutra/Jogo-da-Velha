@@ -118,7 +118,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Replay"/>
+          <text value="Jogar Novamente"/>
         </properties>
       </component>
     </children>
