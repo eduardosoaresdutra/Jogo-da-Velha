@@ -18,10 +18,12 @@ public class JogoDaVelha {
     private JLabel gameMessage;
 
     private int[][] GamePositions = new int[3][3];
-
+    private int DrawVerifier = 0;
     private int PlayerControl = 0;
 
     public JogoDaVelha() {
+        StartGame();
+
         field1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,6 +80,26 @@ public class JogoDaVelha {
         });
     }
 
+    public void StartGame() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                this.GamePositions[i][j] = 2;
+            }
+        }
+    }
+
+    public void SetAllUnclickable() {
+        field1.setEnabled(false);
+        field2.setEnabled(false);
+        field3.setEnabled(false);
+        field4.setEnabled(false);
+        field5.setEnabled(false);
+        field6.setEnabled(false);
+        field7.setEnabled(false);
+        field8.setEnabled(false);
+        field9.setEnabled(false);
+    }
+
     public void ChangePlayer() {
         if (this.PlayerControl == 0) {
             this.PlayerControl = 1;
@@ -96,22 +118,45 @@ public class JogoDaVelha {
         if (this.PlayerControl == 0) {
             this.SetMatrixMarker(rowIndex, colIndex, 0);
             button.setText("O");
-            if (this.VerifyWin()) {
-                // Função que torna os botões inclicáveis
+
+            if (this.VerifyDraw()) {
+                this.SetAllUnclickable();
+                this.gameMessage.setText("Empate!");
+            } else if (this.VerifyWin()) {
+                this.SetAllUnclickable();
                 this.gameMessage.setText("Jogador 'O' venceu!");
             } else {
+                button.setEnabled(false);
                 this.ChangePlayer();
             }
         } else {
             this.SetMatrixMarker(rowIndex, colIndex, 1);
             button.setText("X");
-            if (this.VerifyWin()) {
-                // Função que torna os botões inclicáveis
+
+            if (this.VerifyDraw()) {
+                this.SetAllUnclickable();
+                this.gameMessage.setText("Empate!");
+            } else if (this.VerifyWin()) {
+                this.SetAllUnclickable();
                 this.gameMessage.setText("Jogador 'X' venceu!");
             } else {
+                button.setEnabled(false);
                 this.ChangePlayer();
             }
         }
+    }
+
+    public boolean VerifyDraw() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (this.GamePositions[i][j] != 2) {
+                    this.DrawVerifier++;
+                }
+            }
+        }
+
+        if (this.DrawVerifier == 9) { return true; }
+        return false;
     }
 
     public boolean VerifyWin() {
@@ -129,7 +174,7 @@ public class JogoDaVelha {
                 (this.GamePositions[0][2] == 1 && this.GamePositions[1][2] == 1 && this.GamePositions[2][2] == 1) ||
                 (this.GamePositions[0][0] == 0 && this.GamePositions[1][1] == 0 && this.GamePositions[2][2] == 0) ||
                 (this.GamePositions[0][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[2][2] == 1) ||
-                (this.GamePositions[2][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[0][2] == 1) ||
+                (this.GamePositions[2][0] == 0 && this.GamePositions[1][1] == 0 && this.GamePositions[0][2] == 0) ||
                 (this.GamePositions[2][0] == 1 && this.GamePositions[1][1] == 1 && this.GamePositions[0][2] == 1)
         ) {
             return true;
